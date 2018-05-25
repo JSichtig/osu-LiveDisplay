@@ -78,6 +78,7 @@
       <DependentUpon>MainGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Various\BeatmapDisplay.cs" />
+    <Compile Include="Various\Config.cs" />
     <Compile Include="Various\NameChangeTracker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

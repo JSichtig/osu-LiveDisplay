@@ -11,62 +11,38 @@ using System.Windows.Forms;
 using osu_database_reader.BinaryFiles;
 using osu_database_reader.Components.Beatmaps;
 using osu_database_reader.TextFiles;
+using osu_LiveDisplay.Various;
 
 namespace osu_LiveDisplay
 {
     public partial class MainGUI : Form
     {
-        public static MainGUI me;
+        public static MainGUI mainGUI;
+
         public MonoDisplay myGame;
         public String osuPath;
-        public OsuDb osuDB;
-
-        public NameChangeTracker nameChangeTracker;
 
         public MainGUI()
         {
             InitializeComponent();
-            me = this;
-
-            nameChangeTracker = new NameChangeTracker();
+            mainGUI = this;
         }
 
-        public void OsuTitleChanged(String title)
+        public void Initialize()
         {
-            // sample osu!cuttingedge b20180510 - Wada Kouji - FIRE!! ~TV Size~ [GET A FIRE POWER!!]
-            String res = title;
-            if(res.IndexOf(" - ") > 0)
-            {
-                res = res.Remove(0, res.IndexOf(" - ") + 3);
-                foreach (BeatmapEntry bm in osuDB.Beatmaps)
-                {
-                    if ($"{bm.Artist} - {bm.Title} [{bm.Version}]" == res)
-                    {
-                        myGame.BuildLiveDisplay(bm);
-                        return;
-                    }
-                }
+            myGame.OsuDataBaseLoadedCallback = this.OnDataBaseLoaded;
+        }
 
-                // if no title is found in database, parse "Unknown beatmap"
-                BeatmapEntry unknown = new BeatmapEntry();
-                unknown.Title = "Unknown Title";
-                unknown.Artist = "";
-                unknown.Version = "";
-                myGame.BuildLiveDisplay(unknown);
-            } 
-            else if(myGame.currentBeatmap != null)
+        public void OnDataBaseLoaded()
+        {
+            foreach (BeatmapEntry bmEntry in myGame.OsuDataBase.Beatmaps)
             {
-                BeatmapEntry unknown = new BeatmapEntry();
-                unknown.Title = "Waiting for beatmap...";
-                unknown.Artist = "";
-                unknown.Version = "";
-                myGame.BuildLiveDisplay(unknown);
+                dbEntries.Items.Add($"{bmEntry.Artist} - {bmEntry.Title} [{bmEntry.Version}]");
             }
         }
 
         private void MainGUI_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            NameChangeTracker.UnhookWinEvent(nameChangeTracker.hhook);
             myGame.Exit();
         }
 
@@ -78,38 +54,62 @@ namespace osu_LiveDisplay
                 osuPath = folderBrowserDialog1.SelectedPath;
                 osuLocation.Text = osuPath;
                 // load osu.db
-                LoadDatabase();
-            }
-        }
-
-        private void LoadDatabase()
-        {
-            osuDB = OsuDb.Read(osuPath + "/osu!.db");
-            dbEntries.Items.Clear();
-            foreach(BeatmapEntry beatmap in osuDB.Beatmaps)
-            {
-                dbEntries.Items.Add(beatmap.Artist + " - " + beatmap.Title + " [" + beatmap.Version + "]");
+                Config.SetEntry("osuLocation", osuPath);
+                myGame.LoadOsuDatabase();
             }
         }
 
         private void dbEntries_SelectedIndexChanged(object sender, EventArgs e)
         {
-            myGame.BuildLiveDisplay(osuDB.Beatmaps[dbEntries.SelectedIndex]);
+            myGame.BuildLiveDisplay(myGame.OsuDataBase.Beatmaps[dbEntries.SelectedIndex]);
         }
 
         private void fileSystemWatcher1_Changed(object sender, System.IO.FileSystemEventArgs e)
         {
-            LoadDatabase();
+            myGame.LoadOsuDatabase();
         }
 
         private void fileSystemWatcher1_Created(object sender, System.IO.FileSystemEventArgs e)
         {
-            LoadDatabase();
+            myGame.LoadOsuDatabase();
         }
 
         private void fileSystemWatcher1_Deleted(object sender, System.IO.FileSystemEventArgs e)
         {
-            LoadDatabase();
+            myGame.LoadOsuDatabase();
+        }
+
+        private void MainGUI_Load(object sender, EventArgs e)
+        {
+            
+        }
+
+        public void OnConfigRead()
+        {
+            hiddenOnMenu.Checked = (bool) Config.GetEntry("hiddenOnMenu");
+            scrollSpeed.Value = (int) Config.GetEntry("scrollSpeed");
+            waitTime.Value = (int) Config.GetEntry("waitingTime");
+            osuLocation.Text = (string)Config.GetEntry("osuLocation") == "" ? "..." : (string)Config.GetEntry("osuLocation");
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            Config.SaveSettings();
+        }
+
+        private void hiddenOnMenu_CheckedChanged(object sender, EventArgs e)
+        {
+            Config.SetEntry("hiddenOnMenu", (bool) hiddenOnMenu.Checked);
+        }
+
+        private void waitTime_ValueChanged(object sender, EventArgs e)
+        {
+            Config.SetEntry("waitingTime", (int) waitTime.Value);
+        }
+
+        private void scrollSpeed_ValueChanged(object sender, EventArgs e)
+        {
+            Config.SetEntry("scrollSpeed",(int) scrollSpeed.Value);
         }
     }
 }

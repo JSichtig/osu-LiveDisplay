@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using osu.Shared;
+using osu_database_reader.BinaryFiles;
 using osu_database_reader.Components.Beatmaps;
 using osu_LiveDisplay.Various;
 using System;
@@ -15,8 +16,22 @@ namespace osu_LiveDisplay
         public GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        public static MainGUI myGUI;
         public BeatmapDisplay currentBeatmap;
+
+        private NameChangeTracker nameChangeTracker;
+
+        private OsuDb osuDatabase;
+        public OsuDb OsuDataBase
+        {
+            get { return this.osuDatabase; }
+        }
+
+        private Action osuDataBaseLoadedCallback = null;
+        public Action OsuDataBaseLoadedCallback
+        {
+            set { this.osuDataBaseLoadedCallback = value; }
+            get { return this.osuDataBaseLoadedCallback; }
+        }
 
         public MonoDisplay()
         {
@@ -29,9 +44,17 @@ namespace osu_LiveDisplay
         protected override void Initialize()
         {
             base.Initialize();
-            this.Window.IsBorderless = true;
+            Config.ReadConfig();
+
+            if((bool) Config.GetEntry("isBorderless"))
+                this.Window.IsBorderless = true;
             this.IsMouseVisible = true;
             this.Window.Title = "osu!LiveDisplay Output";
+
+            nameChangeTracker = new NameChangeTracker(this.OsuTitleChanged);
+
+            if ((string)Config.GetEntry("osuLocation") != "")
+                LoadOsuDatabase();
         }
 
         protected override void LoadContent()
@@ -46,11 +69,12 @@ namespace osu_LiveDisplay
 
         protected override void Update(GameTime gameTime)
         {
-            this.Window.Position = new Point(myGUI.Location.X + myGUI.Width, myGUI.Location.Y);
+            if((bool)Config.GetEntry("snapToGUI"))
+                if(MainGUI.mainGUI != null)
+                    this.Window.Position = new Point(MainGUI.mainGUI.Location.X + MainGUI.mainGUI.Size.Width + 10, MainGUI.mainGUI.Location.Y + 30);
+
             if (currentBeatmap != null)
-            {
                 currentBeatmap.Update(gameTime);
-            }
             base.Update(gameTime);
         }
 
@@ -60,7 +84,7 @@ namespace osu_LiveDisplay
 
             if (currentBeatmap != null)
             {
-                if (currentBeatmap.BeatmapEntry.Title == "Waiting for beatmap..." && myGUI.hiddenOnMenu.Checked)
+                if (currentBeatmap.BeatmapEntry.Title == "Waiting for beatmap..." && (bool) Config.GetEntry("hiddenOnMenu"))
                 {
                     base.Draw(gameTime);
                     return;
@@ -76,9 +100,49 @@ namespace osu_LiveDisplay
             currentBeatmap = new BeatmapDisplay(GraphicsDevice, Content, beatmap);
         }
 
+        public void LoadOsuDatabase()
+        {
+            osuDatabase = OsuDb.Read(Config.GetEntry("osuLocation") + "/osu!.db");
+            if (osuDataBaseLoadedCallback != null)
+                osuDataBaseLoadedCallback();
+        }
+
+        public void OsuTitleChanged(String title)
+        {
+            // sample osu!cuttingedge b20180510 - Wada Kouji - FIRE!! ~TV Size~ [GET A FIRE POWER!!]
+            String res = title;
+            if (res.IndexOf(" - ") > 0)
+            {
+                res = res.Remove(0, res.IndexOf(" - ") + 3);
+                foreach (BeatmapEntry bm in osuDatabase.Beatmaps)
+                {
+                    if ($"{bm.Artist} - {bm.Title} [{bm.Version}]" == res)
+                    {
+                        BuildLiveDisplay(bm);
+                        return;
+                    }
+                }
+
+                // if no title is found in database, parse "Unknown beatmap"
+                BeatmapEntry unknown = new BeatmapEntry();
+                unknown.Title = "Unknown Title";
+                unknown.Artist = "";
+                unknown.Version = "";
+                BuildLiveDisplay(unknown);
+            }
+            else if (currentBeatmap != null)
+            {
+                BeatmapEntry unknown = new BeatmapEntry();
+                unknown.Title = "Waiting for beatmap...";
+                unknown.Artist = "";
+                unknown.Version = "";
+                BuildLiveDisplay(unknown);
+            }
+        }
+
         protected override void OnExiting(Object sender, EventArgs args)
         {
-            NameChangeTracker.UnhookWinEvent(MainGUI.me.nameChangeTracker.hhook);
+            NameChangeTracker.UnhookWinEvent(nameChangeTracker.hhook);
             base.OnExiting(sender, args);
         }
     }

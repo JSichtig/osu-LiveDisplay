@@ -102,22 +102,22 @@ namespace osu_LiveDisplay.Various
                     if (titlePosition.X == 40)
                     {
                         titleResetCounter += gameTime.ElapsedGameTime.Milliseconds;
-                        if (titleResetCounter > 1000 * MonoDisplay.myGUI.waitTime.Value)
+                        if (titleResetCounter > 1000 * (int) Config.GetEntry("waitingTime"))
                         {
-                            titlePosition.X -= ((float) MonoDisplay.myGUI.scrollSpeed.Value / 100f) * (float)gameTime.ElapsedGameTime.Milliseconds;
+                            titlePosition.X -= ((int) Config.GetEntry("scrollSpeed") / 100f) * (float)gameTime.ElapsedGameTime.Milliseconds;
                             titleResetCounter = 0;
                         }
                     }
                     else
                     {
-                        titlePosition.X -= ((float) MonoDisplay.myGUI.scrollSpeed.Value / 100f) * (float)gameTime.ElapsedGameTime.Milliseconds;
+                        titlePosition.X -= ((int) Config.GetEntry("scrollSpeed") / 100f) * (float)gameTime.ElapsedGameTime.Milliseconds;
                     }
                 }
                 else
                 {
                     titlePosition.X = 860 - titleSize.X;
                     titleResetCounter += gameTime.ElapsedGameTime.Milliseconds;
-                    if (titleResetCounter > 1000 * MonoDisplay.myGUI.waitTime.Value)
+                    if (titleResetCounter > 1000 * (int) Config.GetEntry("waitingTime"))
                     {
                         titlePosition.X = 40;
                         titleResetCounter = 0;
@@ -132,22 +132,22 @@ namespace osu_LiveDisplay.Various
                     if (artistPosition.X == 40)
                     {
                         artistResetCounter += gameTime.ElapsedGameTime.Milliseconds;
-                        if (artistResetCounter > 1000 * MonoDisplay.myGUI.waitTime.Value)
+                        if (artistResetCounter > 1000 * (int) Config.GetEntry("waitingTime"))
                         {
-                            artistPosition.X -= ((float) MonoDisplay.myGUI.scrollSpeed.Value / 100f) * (float)gameTime.ElapsedGameTime.Milliseconds;
+                            artistPosition.X -= ((int) Config.GetEntry("scrollSpeed") / 100f) * (float)gameTime.ElapsedGameTime.Milliseconds;
                             artistResetCounter = 0;
                         }
                     }
                     else
                     {
-                        artistPosition.X -= ((float) MonoDisplay.myGUI.scrollSpeed.Value / 100f) * (float)gameTime.ElapsedGameTime.Milliseconds;
+                        artistPosition.X -= ((int) Config.GetEntry("scrollSpeed") / 100f) * (float)gameTime.ElapsedGameTime.Milliseconds;
                     }
                 }
                 else
                 {
                     artistPosition.X = 860 - artistSize.X;
                     artistResetCounter += gameTime.ElapsedGameTime.Milliseconds;
-                    if (artistResetCounter > 1000 * MonoDisplay.myGUI.waitTime.Value)
+                    if (artistResetCounter > 1000 * (int) Config.GetEntry("waitingTime"))
                     {
                         artistPosition.X = 40;
                         artistResetCounter = 0;

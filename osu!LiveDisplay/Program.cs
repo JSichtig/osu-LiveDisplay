@@ -1,4 +1,5 @@
-﻿using System;
+﻿using osu_LiveDisplay.Various;
+using System;
 
 namespace osu_LiveDisplay
 {
@@ -16,14 +17,12 @@ namespace osu_LiveDisplay
             using(var game = new MonoDisplay())
             {
                 var gui = new MainGUI();
-
-                MonoDisplay.myGUI = gui;
+                Config.SubscribeOnReadEvent(gui.OnConfigRead);
                 gui.myGame = game;
-
+                gui.Initialize();
                 gui.Show();
                 game.Run();
             }
-
         }
     }
 }

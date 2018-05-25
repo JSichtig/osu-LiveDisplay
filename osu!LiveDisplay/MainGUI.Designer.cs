@@ -41,6 +41,7 @@ namespace osu_LiveDisplay
             this.label2 = new System.Windows.Forms.Label();
             this.waitTime = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
+            this.saveButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.scrollSpeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.waitTime)).BeginInit();
@@ -104,6 +105,7 @@ namespace osu_LiveDisplay
             this.hiddenOnMenu.TabIndex = 6;
             this.hiddenOnMenu.Text = "Hidden in menu?";
             this.hiddenOnMenu.UseVisualStyleBackColor = true;
+            this.hiddenOnMenu.CheckedChanged += new System.EventHandler(this.hiddenOnMenu_CheckedChanged);
             // 
             // scrollSpeed
             // 
@@ -126,6 +128,7 @@ namespace osu_LiveDisplay
             0,
             0,
             0});
+            this.scrollSpeed.ValueChanged += new System.EventHandler(this.scrollSpeed_ValueChanged);
             // 
             // label2
             // 
@@ -157,6 +160,7 @@ namespace osu_LiveDisplay
             0,
             0,
             0});
+            this.waitTime.ValueChanged += new System.EventHandler(this.waitTime_ValueChanged);
             // 
             // label3
             // 
@@ -167,11 +171,22 @@ namespace osu_LiveDisplay
             this.label3.TabIndex = 10;
             this.label3.Text = "Wait (in s)";
             // 
+            // saveButton
+            // 
+            this.saveButton.Location = new System.Drawing.Point(389, 269);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(75, 23);
+            this.saveButton.TabIndex = 11;
+            this.saveButton.Text = "Save";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            // 
             // MainGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(476, 362);
+            this.Controls.Add(this.saveButton);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.waitTime);
             this.Controls.Add(this.label2);
@@ -188,6 +203,7 @@ namespace osu_LiveDisplay
             this.Name = "MainGUI";
             this.Text = "osu!LiveDisplay Config";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainGUI_Closing);
+            this.Load += new System.EventHandler(this.MainGUI_Load);
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.scrollSpeed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.waitTime)).EndInit();
@@ -209,5 +225,6 @@ namespace osu_LiveDisplay
         public NumericUpDown scrollSpeed;
         private Label label3;
         public NumericUpDown waitTime;
+        private Button saveButton;
     }
 }

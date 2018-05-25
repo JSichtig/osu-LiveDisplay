@@ -12,6 +12,8 @@ namespace osu_LiveDisplay
     {
         public IntPtr hhook;
 
+        static Action<string> callback;
+
         delegate void WinEventDelegate(IntPtr hWinEventHook, uint eventType,
             IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime);
 
@@ -39,8 +41,9 @@ namespace osu_LiveDisplay
 
         [DllImport("user32.dll", SetLastError = true)]
         static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
-        public NameChangeTracker()
+        public NameChangeTracker(Action<string> callback)
         {
+            NameChangeTracker.callback = callback;
             // Listen for name change changes across all processes/threads on current desktop...
             hhook = SetWinEventHook(EVENT_OBJECT_NAMECHANGE, EVENT_OBJECT_NAMECHANGE, IntPtr.Zero,
                     procDelegate, 0, 0, WINEVENT_OUTOFCONTEXT);
@@ -61,9 +64,9 @@ namespace osu_LiveDisplay
             GetWindowThreadProcessId(hwnd, out processId);
             Process process = Process.GetProcessById((int)processId);
 
-            int capacity = GetWindowTextLength(new HandleRef(MainGUI.me, hwnd)) * 2;
+            int capacity = GetWindowTextLength(new HandleRef(MainGUI.mainGUI, hwnd)) * 2;
             StringBuilder stringBuilder = new StringBuilder(capacity);
-            GetWindowText(new HandleRef(MainGUI.me, hwnd), stringBuilder, stringBuilder.Capacity);
+            GetWindowText(new HandleRef(MainGUI.mainGUI, hwnd), stringBuilder, stringBuilder.Capacity);
             String output = stringBuilder.ToString();
 
             if (process == null)
@@ -71,7 +74,7 @@ namespace osu_LiveDisplay
 
             if (process.ProcessName == "osu!")
             {
-                MainGUI.me.OsuTitleChanged(output);
+                callback(output);
             }
         }
     }
