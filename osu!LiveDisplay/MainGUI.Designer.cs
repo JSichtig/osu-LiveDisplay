@@ -186,9 +186,8 @@ namespace osu_LiveDisplay
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MainGUI";
-            this.Text = "osu! LD Config";
+            this.Text = "osu!LiveDisplay Config";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainGUI_Closing);
-            this.Load += new System.EventHandler(this.MainGUI_Load);
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.scrollSpeed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.waitTime)).EndInit();

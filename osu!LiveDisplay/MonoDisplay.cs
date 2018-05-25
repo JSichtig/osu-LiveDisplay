@@ -31,7 +31,7 @@ namespace osu_LiveDisplay
             base.Initialize();
             this.Window.IsBorderless = true;
             this.IsMouseVisible = true;
-            this.Window.Title = "osu! LD Output";
+            this.Window.Title = "osu!LiveDisplay Output";
         }
 
         protected override void LoadContent()
