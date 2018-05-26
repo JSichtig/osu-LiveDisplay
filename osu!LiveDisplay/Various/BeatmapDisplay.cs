@@ -74,16 +74,25 @@ namespace osu_LiveDisplay.Various
             scrollableTexts.Add("titleText",new ScrollableText(this.gd, content.Load<SpriteFont>("Exo2SemiBoldItalic"), bmEntry.Title + ((bmEntry.Version == "") ? "" : " [" + bmEntry.Version + "]"), new Vector2(40, 20)));
             scrollableTexts.Add("artistText",new ScrollableText(this.gd, content.Load<SpriteFont>("Exo2SemiBoldItalicSmall"), bmEntry.Artist + " // " + bmEntry.Creator, new Vector2(40, 66)));
 
-            if (bmEntry.Artist == "" && bmEntry.Creator == "")
-                scrollableTexts["artistText"].Text = "";
-
             // let's build the info for the stats display
             // top line:    length, BPM, stars
             // bottom line: CS, AR, OD, HP
 
-            string topLineText = $"Drain: {formatLength(bmEntry.DrainTimeSeconds)}  BPM: {formatBPM(bmEntry.TimingPoints)}  Stars: {Math.Round(bmEntry.DiffStarRatingStandard[Mods.None],2)}";
-            string bottomLineText = $"CS: {bmEntry.CircleSize}  AR: {bmEntry.ApproachRate}  OD: {bmEntry.OveralDifficulty}  HP: {bmEntry.HPDrainRate}";
+            string topLineText;
+            string bottomLineText;
 
+            if (bmEntry.Title == "Waiting for beatmap...")
+            {
+                topLineText = "Waiting for beatmap...";
+                bottomLineText = "";
+                scrollableTexts["artistText"].Text = "";
+            }
+            else
+            {
+                topLineText = $"Drain: {formatLength(bmEntry.DrainTimeSeconds)}  BPM: {formatBPM(bmEntry.TimingPoints)}  Stars: {Math.Round(bmEntry.DiffStarRatingStandard[Mods.None], 2)}";
+                bottomLineText = $"CS: {bmEntry.CircleSize}  AR: {bmEntry.ApproachRate}  OD: {bmEntry.OveralDifficulty}  HP: {bmEntry.HPDrainRate}";
+            }
+            
             scrollableTexts.Add("statsTopText",new ScrollableText(this.gd, content.Load<SpriteFont>("Exo2SemiBoldItalic"), topLineText, new Vector2(40,20)));
             scrollableTexts.Add("statsBottomText", new ScrollableText(this.gd, content.Load<SpriteFont>("Exo2SemiBoldItalicSmall"), bottomLineText, new Vector2(40, 66)));
 
@@ -116,6 +125,8 @@ namespace osu_LiveDisplay.Various
 
         private void switchDisplay(GameTime gameTime)
         {
+            if ((bool)Config.GetEntry("lock"))
+                return;
             switchCounter += gameTime.ElapsedGameTime.Milliseconds;
             if(switchCounter > (int) Config.GetEntry("switchDisplayed") * 1000)
             {

@@ -43,10 +43,11 @@ namespace osu_LiveDisplay
             this.label3 = new System.Windows.Forms.Label();
             this.saveButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.isBorderless = new System.Windows.Forms.CheckBox();
-            this.snapToGUI = new System.Windows.Forms.CheckBox();
+            this.hideStats = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.switchDisplayed = new System.Windows.Forms.NumericUpDown();
+            this.isBorderless = new System.Windows.Forms.CheckBox();
+            this.snapToGUI = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.scrollSpeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.waitTime)).BeginInit();
@@ -190,6 +191,7 @@ namespace osu_LiveDisplay
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.hideStats);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.switchDisplayed);
             this.groupBox1.Controls.Add(this.isBorderless);
@@ -208,6 +210,49 @@ namespace osu_LiveDisplay
             this.groupBox1.TabIndex = 12;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Settings (red = requires restart)";
+            // 
+            // hideStats
+            // 
+            this.hideStats.AutoSize = true;
+            this.hideStats.Location = new System.Drawing.Point(258, 68);
+            this.hideStats.Name = "hideStats";
+            this.hideStats.Size = new System.Drawing.Size(50, 17);
+            this.hideStats.TabIndex = 16;
+            this.hideStats.Text = "Lock";
+            this.hideStats.UseVisualStyleBackColor = true;
+            this.hideStats.CheckedChanged += new System.EventHandler(this.hideStats_CheckedChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(303, 100);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(39, 13);
+            this.label4.TabIndex = 15;
+            this.label4.Text = "Switch";
+            // 
+            // switchDisplayed
+            // 
+            this.switchDisplayed.Location = new System.Drawing.Point(258, 96);
+            this.switchDisplayed.Maximum = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            this.switchDisplayed.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.switchDisplayed.Name = "switchDisplayed";
+            this.switchDisplayed.Size = new System.Drawing.Size(39, 20);
+            this.switchDisplayed.TabIndex = 14;
+            this.switchDisplayed.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.switchDisplayed.ValueChanged += new System.EventHandler(this.switchDisplayed_ValueChanged);
             // 
             // isBorderless
             // 
@@ -231,38 +276,6 @@ namespace osu_LiveDisplay
             this.snapToGUI.Text = "Snap to GUI";
             this.snapToGUI.UseVisualStyleBackColor = true;
             this.snapToGUI.CheckedChanged += new System.EventHandler(this.snapToGUI_CheckedChanged);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(192, 131);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(39, 13);
-            this.label4.TabIndex = 15;
-            this.label4.Text = "Switch";
-            // 
-            // switchDisplayed
-            // 
-            this.switchDisplayed.Location = new System.Drawing.Point(147, 127);
-            this.switchDisplayed.Maximum = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
-            this.switchDisplayed.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.switchDisplayed.Name = "switchDisplayed";
-            this.switchDisplayed.Size = new System.Drawing.Size(39, 20);
-            this.switchDisplayed.TabIndex = 14;
-            this.switchDisplayed.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.switchDisplayed.ValueChanged += new System.EventHandler(this.switchDisplayed_ValueChanged);
             // 
             // MainGUI
             // 
@@ -310,5 +323,6 @@ namespace osu_LiveDisplay
         private CheckBox isBorderless;
         private Label label4;
         public NumericUpDown switchDisplayed;
+        private CheckBox hideStats;
     }
 }
