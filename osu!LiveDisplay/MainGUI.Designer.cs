@@ -45,10 +45,13 @@ namespace osu_LiveDisplay
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.isBorderless = new System.Windows.Forms.CheckBox();
             this.snapToGUI = new System.Windows.Forms.CheckBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.switchDisplayed = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.scrollSpeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.waitTime)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.switchDisplayed)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -187,6 +190,8 @@ namespace osu_LiveDisplay
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.switchDisplayed);
             this.groupBox1.Controls.Add(this.isBorderless);
             this.groupBox1.Controls.Add(this.snapToGUI);
             this.groupBox1.Controls.Add(this.hiddenOnMenu);
@@ -227,6 +232,38 @@ namespace osu_LiveDisplay
             this.snapToGUI.UseVisualStyleBackColor = true;
             this.snapToGUI.CheckedChanged += new System.EventHandler(this.snapToGUI_CheckedChanged);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(192, 131);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(39, 13);
+            this.label4.TabIndex = 15;
+            this.label4.Text = "Switch";
+            // 
+            // switchDisplayed
+            // 
+            this.switchDisplayed.Location = new System.Drawing.Point(147, 127);
+            this.switchDisplayed.Maximum = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            this.switchDisplayed.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.switchDisplayed.Name = "switchDisplayed";
+            this.switchDisplayed.Size = new System.Drawing.Size(39, 20);
+            this.switchDisplayed.TabIndex = 14;
+            this.switchDisplayed.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.switchDisplayed.ValueChanged += new System.EventHandler(this.switchDisplayed_ValueChanged);
+            // 
             // MainGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -248,6 +285,7 @@ namespace osu_LiveDisplay
             ((System.ComponentModel.ISupportInitialize)(this.waitTime)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.switchDisplayed)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -270,5 +308,7 @@ namespace osu_LiveDisplay
         private GroupBox groupBox1;
         private CheckBox snapToGUI;
         private CheckBox isBorderless;
+        private Label label4;
+        public NumericUpDown switchDisplayed;
     }
 }

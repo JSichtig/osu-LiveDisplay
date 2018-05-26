@@ -92,6 +92,7 @@ namespace osu_LiveDisplay
 
             scrollSpeed.Value = (int) Config.GetEntry("scrollSpeed");
             waitTime.Value = (int) Config.GetEntry("waitingTime");
+            switchDisplayed.Value = (int)Config.GetEntry("switchDisplayed");
 
             osuLocation.Text = (string)Config.GetEntry("osuLocation") == "" ? "..." : (string)Config.GetEntry("osuLocation");
         }
@@ -124,6 +125,11 @@ namespace osu_LiveDisplay
         private void isBorderless_CheckedChanged(object sender, EventArgs e)
         {
             Config.SetEntry("isBorderless", (bool) isBorderless.Checked);
+        }
+
+        private void switchDisplayed_ValueChanged(object sender, EventArgs e)
+        {
+            Config.SetEntry("switchDisplayed", (int) switchDisplayed.Value);
         }
     }
 }

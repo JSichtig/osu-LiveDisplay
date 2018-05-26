@@ -29,6 +29,7 @@ namespace osu_LiveDisplay.Various
             settings["osuLocation"]     = new object[] { typeof(string), ""};
             settings["snapToGUI"]       = new object[] { typeof(bool), true };
             settings["isBorderless"]    = new object[] { typeof(bool), false };
+            settings["switchDisplayed"] = new object[] { typeof(int), 10 };
 
             // Read local settings.cfg (if it exists)
             string directory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
