@@ -26,21 +26,12 @@ namespace osu_LiveDisplay.Various
         }
 
         Texture2D myBackground;
-        string titleOutput;
-        string artistOutput;
 
-        Vector2 titlePosition;
-        Vector2 artistPosition;
-        Vector2 titleSize;
-        Vector2 artistSize;
-        int titleResetCounter = 0;
-        int artistResetCounter = 0;
+        ScrollableText titleText;
+        ScrollableText artistText;
 
         Effect curvedBorder;
         Effect textCutOff;
-
-        SpriteFont exo2SemiBoldItalic;
-        SpriteFont exo2SemiBoldItalicSmall;
 
         public BeatmapDisplay(GraphicsDevice gd, ContentManager content, BeatmapEntry bmEntry)
         {
@@ -48,9 +39,6 @@ namespace osu_LiveDisplay.Various
             this.gd = gd;
             spriteBatch = new SpriteBatch(gd);
             this.content = content;
-
-            exo2SemiBoldItalic = content.Load<SpriteFont>("Exo2SemiBoldItalic");
-            exo2SemiBoldItalicSmall = content.Load<SpriteFont>("Exo2SemiBoldItalicSmall");
 
             curvedBorder = content.Load<Effect>("border-radius");
             curvedBorder.Parameters["MaskTexture"].SetValue(content.Load<Texture2D>("MaskTexture"));
@@ -80,80 +68,14 @@ namespace osu_LiveDisplay.Various
                 myBackground = content.Load<Texture2D>("EmptyCard");
             }
 
-            titleOutput = bmEntry.Title + ((bmEntry.Version == "") ? "" : " [" + bmEntry.Version + "]");
-            artistOutput = bmEntry.Artist + " // " + bmEntry.Creator;
-
-            titlePosition = new Vector2(40, 20);
-            artistPosition = new Vector2(40, 66);
-
-            titleSize = exo2SemiBoldItalic.MeasureString(titleOutput);
-            artistSize = exo2SemiBoldItalicSmall.MeasureString(artistOutput);
-
-            titleResetCounter = 0;
-            artistResetCounter = 0;
+            titleText = new ScrollableText(this.gd, content.Load<SpriteFont>("Exo2SemiBoldItalic"), bmEntry.Title + ((bmEntry.Version == "") ? "" : " [" + bmEntry.Version + "]"), new Vector2(40, 20));
+            artistText = new ScrollableText(this.gd, content.Load<SpriteFont>("Exo2SemiBoldItalicSmall"), bmEntry.Artist + " // " + bmEntry.Creator, new Vector2(40, 66));
         }
 
         public void Update(GameTime gameTime)
         {
-            if (titleSize.X > 860)
-            {
-                if (titlePosition.X + titleSize.X > 860)
-                {
-                    if (titlePosition.X == 40)
-                    {
-                        titleResetCounter += gameTime.ElapsedGameTime.Milliseconds;
-                        if (titleResetCounter > 1000 * (int) Config.GetEntry("waitingTime"))
-                        {
-                            titlePosition.X -= ((int) Config.GetEntry("scrollSpeed") / 100f) * (float)gameTime.ElapsedGameTime.Milliseconds;
-                            titleResetCounter = 0;
-                        }
-                    }
-                    else
-                    {
-                        titlePosition.X -= ((int) Config.GetEntry("scrollSpeed") / 100f) * (float)gameTime.ElapsedGameTime.Milliseconds;
-                    }
-                }
-                else
-                {
-                    titlePosition.X = 860 - titleSize.X;
-                    titleResetCounter += gameTime.ElapsedGameTime.Milliseconds;
-                    if (titleResetCounter > 1000 * (int) Config.GetEntry("waitingTime"))
-                    {
-                        titlePosition.X = 40;
-                        titleResetCounter = 0;
-                    }
-                }
-            }
-
-            if (artistSize.X > 860)
-            {
-                if (artistPosition.X + artistSize.X > 860)
-                {
-                    if (artistPosition.X == 40)
-                    {
-                        artistResetCounter += gameTime.ElapsedGameTime.Milliseconds;
-                        if (artistResetCounter > 1000 * (int) Config.GetEntry("waitingTime"))
-                        {
-                            artistPosition.X -= ((int) Config.GetEntry("scrollSpeed") / 100f) * (float)gameTime.ElapsedGameTime.Milliseconds;
-                            artistResetCounter = 0;
-                        }
-                    }
-                    else
-                    {
-                        artistPosition.X -= ((int) Config.GetEntry("scrollSpeed") / 100f) * (float)gameTime.ElapsedGameTime.Milliseconds;
-                    }
-                }
-                else
-                {
-                    artistPosition.X = 860 - artistSize.X;
-                    artistResetCounter += gameTime.ElapsedGameTime.Milliseconds;
-                    if (artistResetCounter > 1000 * (int) Config.GetEntry("waitingTime"))
-                    {
-                        artistPosition.X = 40;
-                        artistResetCounter = 0;
-                    }
-                }
-            }
+            titleText.Update(gameTime);
+            artistText.Update(gameTime);
         }
 
         public void Draw(GameTime gameTime)
@@ -167,10 +89,71 @@ namespace osu_LiveDisplay.Various
 
             // text
             spriteBatch.Begin(effect: textCutOff);
-                spriteBatch.DrawString(exo2SemiBoldItalic, titleOutput, titlePosition, Color.White);
-                if (bmEntry.Artist != "" && bmEntry.Creator != "")
-                    spriteBatch.DrawString(exo2SemiBoldItalicSmall, artistOutput, artistPosition, Color.White);
+                titleText.Draw(gameTime, spriteBatch);
+            if (bmEntry.Artist != "" && bmEntry.Creator != "")
+                artistText.Draw(gameTime, spriteBatch);
             spriteBatch.End();
+        }
+    }
+
+    public class ScrollableText
+    {
+        GraphicsDevice graphicsDevice;
+
+        SpriteFont font;
+        string text;
+        Vector2 position;
+        Vector2 size;
+        int resetCounter = 0;
+
+        public ScrollableText(GraphicsDevice graphicsDevice, SpriteFont font, string text, Vector2 position)
+        {
+            this.graphicsDevice = graphicsDevice;
+
+            this.font = font;
+            this.text = text;
+
+            // measure size and set inital position
+            this.position = position;
+            this.size = font.MeasureString(this.text);
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            if (size.X > 860)
+            {
+                if (position.X + size.X > 860)
+                {
+                    if (position.X == 40)
+                    {
+                        resetCounter += gameTime.ElapsedGameTime.Milliseconds;
+                        if (resetCounter > 1000 * (int)Config.GetEntry("waitingTime"))
+                        {
+                            position.X -= ((int)Config.GetEntry("scrollSpeed") / 100f) * (float)gameTime.ElapsedGameTime.Milliseconds;
+                            resetCounter = 0;
+                        }
+                    }
+                    else
+                    {
+                        position.X -= ((int)Config.GetEntry("scrollSpeed") / 100f) * (float)gameTime.ElapsedGameTime.Milliseconds;
+                    }
+                }
+                else
+                {
+                    position.X = 860 - size.X;
+                    resetCounter += gameTime.ElapsedGameTime.Milliseconds;
+                    if (resetCounter > 1000 * (int)Config.GetEntry("waitingTime"))
+                    {
+                        position.X = 40;
+                        resetCounter = 0;
+                    }
+                }
+            }
+        }
+
+        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            spriteBatch.DrawString(font, text, position, Color.White);
         }
     }
 }
