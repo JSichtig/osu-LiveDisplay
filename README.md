@@ -27,9 +27,8 @@ Once you play a song, osu!LiveDisplay will automatically start displaying the cu
 ![Screenshot of osu!LiveDisplay while ingame](https://raw.githubusercontent.com/JSichtig/osu-LiveDisplay/master/README/ScreenShotIngame.PNG)
 
 ## TODO:
-* Separate logic from GUI
+* Add No-GUI mode (reduces RAM usage a bit)
 * Add stats display
-* Save and load settings
 * Sync scrolling titles and artists
 * Add smooth transitions and other fancy effects
 
