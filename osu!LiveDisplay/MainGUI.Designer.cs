@@ -42,9 +42,13 @@ namespace osu_LiveDisplay
             this.waitTime = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.saveButton = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.isBorderless = new System.Windows.Forms.CheckBox();
+            this.snapToGUI = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.scrollSpeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.waitTime)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -60,7 +64,7 @@ namespace osu_LiveDisplay
             // locateOsu
             // 
             this.locateOsu.ForeColor = System.Drawing.Color.Black;
-            this.locateOsu.Location = new System.Drawing.Point(12, 269);
+            this.locateOsu.Location = new System.Drawing.Point(11, 24);
             this.locateOsu.Name = "locateOsu";
             this.locateOsu.Size = new System.Drawing.Size(75, 23);
             this.locateOsu.TabIndex = 3;
@@ -72,7 +76,7 @@ namespace osu_LiveDisplay
             // 
             this.osuLocation.AutoSize = true;
             this.osuLocation.ForeColor = System.Drawing.Color.Black;
-            this.osuLocation.Location = new System.Drawing.Point(93, 274);
+            this.osuLocation.Location = new System.Drawing.Point(92, 29);
             this.osuLocation.Name = "osuLocation";
             this.osuLocation.Size = new System.Drawing.Size(16, 13);
             this.osuLocation.TabIndex = 4;
@@ -99,17 +103,17 @@ namespace osu_LiveDisplay
             // 
             this.hiddenOnMenu.AutoSize = true;
             this.hiddenOnMenu.ForeColor = System.Drawing.Color.Black;
-            this.hiddenOnMenu.Location = new System.Drawing.Point(12, 308);
+            this.hiddenOnMenu.Location = new System.Drawing.Point(11, 68);
             this.hiddenOnMenu.Name = "hiddenOnMenu";
-            this.hiddenOnMenu.Size = new System.Drawing.Size(106, 17);
+            this.hiddenOnMenu.Size = new System.Drawing.Size(100, 17);
             this.hiddenOnMenu.TabIndex = 6;
-            this.hiddenOnMenu.Text = "Hidden in menu?";
+            this.hiddenOnMenu.Text = "Hidden in menu";
             this.hiddenOnMenu.UseVisualStyleBackColor = true;
             this.hiddenOnMenu.CheckedChanged += new System.EventHandler(this.hiddenOnMenu_CheckedChanged);
             // 
             // scrollSpeed
             // 
-            this.scrollSpeed.Location = new System.Drawing.Point(12, 331);
+            this.scrollSpeed.Location = new System.Drawing.Point(11, 96);
             this.scrollSpeed.Maximum = new decimal(new int[] {
             10,
             0,
@@ -133,7 +137,7 @@ namespace osu_LiveDisplay
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(56, 335);
+            this.label2.Location = new System.Drawing.Point(55, 100);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(62, 13);
             this.label2.TabIndex = 8;
@@ -141,7 +145,7 @@ namespace osu_LiveDisplay
             // 
             // waitTime
             // 
-            this.waitTime.Location = new System.Drawing.Point(129, 308);
+            this.waitTime.Location = new System.Drawing.Point(11, 127);
             this.waitTime.Maximum = new decimal(new int[] {
             10,
             0,
@@ -165,15 +169,15 @@ namespace osu_LiveDisplay
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(174, 312);
+            this.label3.Location = new System.Drawing.Point(56, 131);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(54, 13);
+            this.label3.Size = new System.Drawing.Size(58, 13);
             this.label3.TabIndex = 10;
-            this.label3.Text = "Wait (in s)";
+            this.label3.Text = "Scrolldelay";
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(389, 269);
+            this.saveButton.Location = new System.Drawing.Point(366, 24);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 23);
             this.saveButton.TabIndex = 11;
@@ -181,20 +185,55 @@ namespace osu_LiveDisplay
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.isBorderless);
+            this.groupBox1.Controls.Add(this.snapToGUI);
+            this.groupBox1.Controls.Add(this.hiddenOnMenu);
+            this.groupBox1.Controls.Add(this.saveButton);
+            this.groupBox1.Controls.Add(this.scrollSpeed);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.osuLocation);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.locateOsu);
+            this.groupBox1.Controls.Add(this.waitTime);
+            this.groupBox1.Location = new System.Drawing.Point(12, 269);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(452, 166);
+            this.groupBox1.TabIndex = 12;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Settings (red = requires restart)";
+            // 
+            // isBorderless
+            // 
+            this.isBorderless.AutoSize = true;
+            this.isBorderless.ForeColor = System.Drawing.Color.Brown;
+            this.isBorderless.Location = new System.Drawing.Point(147, 99);
+            this.isBorderless.Name = "isBorderless";
+            this.isBorderless.Size = new System.Drawing.Size(75, 17);
+            this.isBorderless.TabIndex = 13;
+            this.isBorderless.Text = "Borderless";
+            this.isBorderless.UseVisualStyleBackColor = true;
+            this.isBorderless.CheckedChanged += new System.EventHandler(this.isBorderless_CheckedChanged);
+            // 
+            // snapToGUI
+            // 
+            this.snapToGUI.AutoSize = true;
+            this.snapToGUI.Location = new System.Drawing.Point(147, 68);
+            this.snapToGUI.Name = "snapToGUI";
+            this.snapToGUI.Size = new System.Drawing.Size(85, 17);
+            this.snapToGUI.TabIndex = 12;
+            this.snapToGUI.Text = "Snap to GUI";
+            this.snapToGUI.UseVisualStyleBackColor = true;
+            this.snapToGUI.CheckedChanged += new System.EventHandler(this.snapToGUI_CheckedChanged);
+            // 
             // MainGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(476, 362);
-            this.Controls.Add(this.saveButton);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.waitTime);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.scrollSpeed);
-            this.Controls.Add(this.hiddenOnMenu);
+            this.ClientSize = new System.Drawing.Size(476, 447);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dbEntries);
-            this.Controls.Add(this.osuLocation);
-            this.Controls.Add(this.locateOsu);
             this.Controls.Add(this.label1);
             this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -207,6 +246,8 @@ namespace osu_LiveDisplay
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.scrollSpeed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.waitTime)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -226,5 +267,8 @@ namespace osu_LiveDisplay
         private Label label3;
         public NumericUpDown waitTime;
         private Button saveButton;
+        private GroupBox groupBox1;
+        private CheckBox snapToGUI;
+        private CheckBox isBorderless;
     }
 }

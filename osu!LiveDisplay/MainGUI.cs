@@ -87,8 +87,12 @@ namespace osu_LiveDisplay
         public void OnConfigRead()
         {
             hiddenOnMenu.Checked = (bool) Config.GetEntry("hiddenOnMenu");
+            snapToGUI.Checked = (bool)Config.GetEntry("snapToGUI");
+            isBorderless.Checked = (bool)Config.GetEntry("isBorderless");
+
             scrollSpeed.Value = (int) Config.GetEntry("scrollSpeed");
             waitTime.Value = (int) Config.GetEntry("waitingTime");
+
             osuLocation.Text = (string)Config.GetEntry("osuLocation") == "" ? "..." : (string)Config.GetEntry("osuLocation");
         }
 
@@ -110,6 +114,16 @@ namespace osu_LiveDisplay
         private void scrollSpeed_ValueChanged(object sender, EventArgs e)
         {
             Config.SetEntry("scrollSpeed",(int) scrollSpeed.Value);
+        }
+
+        private void snapToGUI_CheckedChanged(object sender, EventArgs e)
+        {
+            Config.SetEntry("snapToGUI", (bool) snapToGUI.Checked);
+        }
+
+        private void isBorderless_CheckedChanged(object sender, EventArgs e)
+        {
+            Config.SetEntry("isBorderless", (bool) isBorderless.Checked);
         }
     }
 }
