@@ -11,12 +11,13 @@ This allows osu!LiveDisplay to display OD,AR,Stars etc. Keep it mind, this appro
 (Old screenshot)
 
 ### Step 2: Change your settings
-osu!LiveDisplay offers quite a few settings (admittedly not a lot yet) for customization.
-* Hidden in menu - this options allows you to completely hide the display while you're not playing a song.
-* Scrollspeed - how fast the text scrolls if the title or artist is too long for complete visibility.
+osu!LiveDisplay offers quite a few settings (admittedly not a lot yet) for customization
+* Hidden in menu - this options allows you to completely hide the display while you're not playing a song
+* Scrollspeed - how fast the text scrolls if the title or artist is too long for complete visibility
 * Scrolldelay - the delay in seconds after and before the text scrolls.
 * Snap to GUI - wether or not the display snaps to the GUI
 * Borderless - wether or not the display-window is borderless
+* Switch - interval between stats and title display in seconds
 
 ### (Step 3: Test the display)
 By selecting one of the beatmaps displayed in the itemlist, you can preview how it's gonna look without having osu! actively running.
@@ -33,7 +34,8 @@ Once you play a song, osu!LiveDisplay will automatically start displaying the cu
 
 ## TODO:
 * Add No-GUI mode (reduces RAM usage a bit)
-* Add stats display
+* Separate settings for length of stats and title
+* Add visual cue for time left until the display switches
 * Sync scrolling titles and artists
 * Add smooth transitions and other fancy effects
 
