@@ -89,7 +89,7 @@ namespace osu_LiveDisplay
             hiddenOnMenu.Checked = (bool) Config.GetEntry("hiddenOnMenu");
             snapToGUI.Checked = (bool)Config.GetEntry("snapToGUI");
             isBorderless.Checked = (bool)Config.GetEntry("isBorderless");
-            hideStats.Checked = (bool)Config.GetEntry("lock");
+            lockDisplay.Checked = (bool)Config.GetEntry("lock");
 
             scrollSpeed.Value = (int) Config.GetEntry("scrollSpeed");
             waitTime.Value = (int) Config.GetEntry("waitingTime");
@@ -135,7 +135,7 @@ namespace osu_LiveDisplay
 
         private void hideStats_CheckedChanged(object sender, EventArgs e)
         {
-            Config.SetEntry("lock", (bool) hideStats.Checked);
+            Config.SetEntry("lock", (bool) lockDisplay.Checked);
         }
     }
 }

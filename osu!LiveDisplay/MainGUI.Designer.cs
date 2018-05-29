@@ -43,7 +43,7 @@ namespace osu_LiveDisplay
             this.label3 = new System.Windows.Forms.Label();
             this.saveButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.hideStats = new System.Windows.Forms.CheckBox();
+            this.lockDisplay = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.switchDisplayed = new System.Windows.Forms.NumericUpDown();
             this.isBorderless = new System.Windows.Forms.CheckBox();
@@ -191,7 +191,7 @@ namespace osu_LiveDisplay
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.hideStats);
+            this.groupBox1.Controls.Add(this.lockDisplay);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.switchDisplayed);
             this.groupBox1.Controls.Add(this.isBorderless);
@@ -213,14 +213,14 @@ namespace osu_LiveDisplay
             // 
             // hideStats
             // 
-            this.hideStats.AutoSize = true;
-            this.hideStats.Location = new System.Drawing.Point(258, 68);
-            this.hideStats.Name = "hideStats";
-            this.hideStats.Size = new System.Drawing.Size(50, 17);
-            this.hideStats.TabIndex = 16;
-            this.hideStats.Text = "Lock";
-            this.hideStats.UseVisualStyleBackColor = true;
-            this.hideStats.CheckedChanged += new System.EventHandler(this.hideStats_CheckedChanged);
+            this.lockDisplay.AutoSize = true;
+            this.lockDisplay.Location = new System.Drawing.Point(258, 68);
+            this.lockDisplay.Name = "hideStats";
+            this.lockDisplay.Size = new System.Drawing.Size(50, 17);
+            this.lockDisplay.TabIndex = 16;
+            this.lockDisplay.Text = "Lock";
+            this.lockDisplay.UseVisualStyleBackColor = true;
+            this.lockDisplay.CheckedChanged += new System.EventHandler(this.hideStats_CheckedChanged);
             // 
             // label4
             // 
@@ -323,6 +323,6 @@ namespace osu_LiveDisplay
         private CheckBox isBorderless;
         private Label label4;
         public NumericUpDown switchDisplayed;
-        private CheckBox hideStats;
+        private CheckBox lockDisplay;
     }
 }
