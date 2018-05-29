@@ -17,6 +17,7 @@ osu!LiveDisplay offers quite a few settings (admittedly not a lot yet) for custo
 * Scrolldelay - the delay in seconds after and before the text scrolls.
 * Snap to GUI - wether or not the display snaps to the GUI
 * Borderless - wether or not the display-window is borderless
+* Lock - locks the current (or initial) display in place (i.e. never shows stats on new beatmaps)
 * Switch - interval between stats and title display in seconds
 
 ### (Step 3: Test the display)
